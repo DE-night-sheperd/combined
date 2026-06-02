@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emazizini Municipality — SENTINEL-GRID Prototype</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="scripts.js" defer></script>
+  </head>
+  <body>
+    <div class="split-label">
+      ◀ EMAZIZINI MUNICIPALITY BILLING SYSTEM | HACKER CONSOLE ▶
+    </div>
+
+    <div class="sg-modal-bg" id="sgModal">
+      <div class="sg-modal">
+        <div class="sg-modal-title">⬡ SENTINEL-GRID ACTIVATION</div>
+
+        <div class="sg-modal-field">
+          <label>OPERATOR 01 — SG APPROVAL</label>
+          <input
+            type="password"
+            id="sgC1"
+            placeholder="Enter SG approval code 1"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="sg-modal-field">
+          <label>OPERATOR 02 — SG APPROVAL</label>
+          <input
+            type="password"
+            id="sgC2"
+            placeholder="Enter SG approval code 2"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="sg-modal-field">
+          <label>OPERATOR 03 — SG APPROVAL</label>
+          <input
+            type="password"
+            id="sgC3"
+            placeholder="Enter SG approval code 3"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="sg-modal-field">
+          <label>DUO — VERIFICATION CODE</label>
+          <input
+            type="password"
+            id="sgDuo"
+            placeholder="Enter DUO verification code"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="sg-modal-hint">
+          ALL 3 SG APPROVAL CODES + DUO VERIFICATION CODE ARE REQUIRED TO
+          ACTIVATE SENTINEL-GRID.
+        </div>
+
+        <div class="sg-modal-btns">
+          <button class="sg-modal-btn cancel" onclick="closeSgModal()">
+            CANCEL</button
+          ><button class="sg-modal-btn" onclick="activateSG()">ACTIVATE</button>
+        </div>
+
+        <div class="sg-modal-err" id="sgErr"></div>
+      </div>
+    </div>
+
+    <div class="split">
+      <!-- MUNICIPALITY SIDE -->
+      <div class="bank-side">
+        <div class="bank-topbar">
+          <div class="bank-logo-wrap">
+            <div class="bank-logo-mark">EMM</div>
+            <div>
+              <div class="bank-logo-text">Emazizini Municipality</div>
+              <span class="bank-logo-sub">BILLING SECURE PORTAL</span>
+            </div>
+          </div>
+          <button
+            class="sg-pill off"
+            id="sgToggleBtn"
+            onclick="handleSGButton()"
+            style="display: none"
+          >
+            <div class="sg-dot"></div>
+            <span id="sgPillText">SENTINEL-GRID OFF</span>
+          </button>
+        </div>
+
+        <div class="bank-login-wrap" id="bankLoginWrap">
+          <div class="bank-login-card">
+            <div class="bank-login-logo">
+              <div class="bank-login-mark">EMM</div>
+              <div class="bank-login-title">Emazizini Municipality</div>
+              <div class="bank-login-sub">
+                Billing Admin Login — Authorised Personnel Only
+              </div>
+            </div>
+
+            <div class="bank-field">
+              <label>USERNAME</label>
+              <input
+                type="text"
+                id="bankUser"
+                placeholder="Username"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="bank-field">
+              <label>PASSWORD</label>
+              <input
+                type="password"
+                id="bankPass"
+                placeholder="Password"
+                autocomplete="off"
+                onkeydown="if (event.key === 'Enter') bankLogin();"
+              />
+            </div>
+
+            <button class="bank-btn" onclick="bankLogin()">Sign In</button>
+            <div class="bank-err" id="bankErr"></div>
+
+            <div class="bank-secure-note">
+              All billing admin sessions are monitored and recorded
+            </div>
+          </div>
+        </div>
+
+        <div class="bank-dash" id="bankDash">
+          <div class="bank-user-bar">
+            <div class="bank-user-info">
+              Logged in as <strong id="bankWho">—</strong> | Emazizini
+              Municipality Billing Department | <span id="bankTime"></span>
+            </div>
+            <button class="bank-logout" onclick="bankLogout()">Log Out</button>
+          </div>
+
+          <div class="bank-nav">
+            <button
+              class="bank-nav-btn active"
+              onclick="bankTab('overview', this)"
+            >
+              Dashboard
+            </button>
+            <button class="bank-nav-btn" onclick="bankTab('accounts', this)">
+              Accounts
+            </button>
+            <button class="bank-nav-btn" onclick="bankTab('cards', this)">
+              Bank Details
+            </button>
+            <button class="bank-nav-btn" onclick="bankTab('loans', this)">
+              Water & Electricity Bills
+            </button>
+            <button class="bank-nav-btn" onclick="bankTab('security', this)">
+              Security
+            </button>
+          </div>
+
+          <div class="bank-content">
+            <div class="sg-alert-panel" id="bankAlertPanel">
+              <div class="sg-alert-title">⚠ ACTIVE SECURITY ALERTS</div>
+              <div id="bankAlertList"></div>
+            </div>
+            <div class="sg-rec-panel" id="bankRecPanel">
+              <div class="sg-rec-title">✓ RECOMMENDED ACTIONS</div>
+              <div id="bankRecList"></div>
+            </div>
+
+            <div class="bank-view active" id="bv-overview">
+              <div class="bank-metrics">
+                <div class="bm">
+                  <div class="bm-label">TOTAL OUTSTANDING BILLS</div>
+                  <div class="bm-val blue" id="totalBillsDisplay">R 0</div>
+                  <div class="bm-sub">active customer accounts</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">WATER BILLS</div>
+                  <div class="bm-val" id="totalWaterDisplay">R 0</div>
+                  <div class="bm-sub">total water debt</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">ELECTRICITY BILLS</div>
+                  <div class="bm-val green" id="totalElectricityDisplay">
+                    R 0
+                  </div>
+                  <div class="bm-sub">total electricity debt</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">SECURITY ALERTS</div>
+                  <div class="bm-val red" id="alertCountDisplay">0</div>
+                  <div class="bm-sub">past 24 hours</div>
+                </div>
+              </div>
+
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">Recent Transactions</div>
+                  <div class="bank-table-meta">Last 24 hours</div>
+                </div>
+
+                <table class="bank-t">
+                  <thead>
+                    <tr>
+                      <th>TIME</th>
+                      <th>ACCOUNT</th>
+                      <th>CUSTOMER</th>
+                      <th>TYPE</th>
+                      <th>AMOUNT</th>
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>14:32</td>
+                      <td style="font-family: monospace">BILL-4471-2291</td>
+                      <td>Sipho Dlamini</td>
+                      <td>Water Payment</td>
+                      <td>R 1,250.00</td>
+                      <td>
+                        <span class="bank-badge badge-active">Completed</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>14:18</td>
+                      <td style="font-family: monospace">BILL-3382-7104</td>
+                      <td>Nomsa Khumalo</td>
+                      <td>Electricity Payment</td>
+                      <td>R 850.00</td>
+                      <td>
+                        <span class="bank-badge badge-active">Completed</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bank-view" id="bv-accounts">
+              <!-- 4 ACTION BUTTONS FOR SELECTED CLIENT - ONE SET ONLY -->
+              <div class="action-buttons-panel">
+                <div class="selected-info" id="selectedCustomerInfo">
+                  ⚠️ No customer selected. Click on any customer row below.
+                </div>
+                <div class="four-buttons">
+                  <button
+                    class="action-btn clear-btn"
+                    id="clearCustomerBtn"
+                    onclick="clearSelectedCustomer()"
+                    disabled
+                  >
+                    🗑️ CLEAR CUSTOMER (DELETE ALL DATA)
+                  </button>
+                  <button
+                    class="action-btn edit-btn"
+                    id="editBalanceBtn"
+                    onclick="editSelectedCustomerBalance()"
+                    disabled
+                  >
+                    ✏️ EDIT BALANCE (-R100 to R1000)
+                  </button>
+                  <button
+                    class="action-btn water-btn"
+                    id="sellWaterBtn"
+                    onclick="sellWaterTokenSelected()"
+                    disabled
+                  >
+                    💧 SELL WATER TOKEN
+                  </button>
+                  <button
+                    class="action-btn electricity-btn"
+                    id="sellElectricityBtn"
+                    onclick="sellElectricityTokenSelected()"
+                    disabled
+                  >
+                    ⚡ SELL ELECTRICITY TOKEN
+                  </button>
+                </div>
+              </div>
+
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">Customer Accounts</div>
+                  <div class="bank-table-meta">
+                    Click any row to select customer | Active billing accounts
+                  </div>
+                </div>
+
+                <table class="bank-t" id="accountsTable">
+                  <thead>
+                    <tr>
+                      <th>ACCOUNT NO.</th>
+                      <th>CUSTOMER NAME</th>
+                      <th>ELECTRICITY BILL BALANCE</th>
+                      <th>KWH USED</th>
+                      <th>USERS / YEARS BILLED</th>
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="accountsBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bank-view" id="bv-cards">
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">Customer Banking Details</div>
+                  <div class="bank-table-meta">Payment methods</div>
+                </div>
+
+                <table class="bank-t" id="cardsTable">
+                  <thead>
+                    <tr>
+                      <th>CUSTOMER NAME</th>
+                      <th>CARD NUMBER</th>
+                      <th>EXPIRY</th>
+                      <th>CVV</th>
+                      <th>BANK NAME</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cardsBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bank-view" id="bv-loans">
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">Water & Electricity Bills</div>
+                  <div class="bank-table-meta">Customer utility balances</div>
+                </div>
+
+                <table class="bank-t" id="loansTable">
+                  <thead>
+                    <tr>
+                      <th>CUSTOMER NAME</th>
+                      <th>BILL TYPE</th>
+                      <th>WATER BALANCE</th>
+                      <th>ELECTRICITY BALANCE</th>
+                      <th>KWH</th>
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="loansBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bank-view" id="bv-security">
+              <div class="bank-metrics">
+                <div class="bm">
+                  <div class="bm-label">ATTACKS DETECTED</div>
+                  <div class="bm-val red" id="secAttackCount">0</div>
+                  <div class="bm-sub">total logged</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">DATA COMPROMISED</div>
+                  <div class="bm-val red" id="secDataComp">None</div>
+                  <div class="bm-sub">customer data secure</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">SG TRAPPED</div>
+                  <div class="bm-val green" id="secTrapped">0</div>
+                  <div class="bm-sub">honeypot catches</div>
+                </div>
+
+                <div class="bm">
+                  <div class="bm-label">BILLS ERASED</div>
+                  <div class="bm-val red" id="secLoansErased">0</div>
+                  <div class="bm-sub">by attacker</div>
+                </div>
+              </div>
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">DEFENSE LAYER STATUS</div>
+                  <div class="bank-table-meta">Real-time breach attempts</div>
+                </div>
+                <div id="defenseLayersContainer" style="padding: 12px"></div>
+              </div>
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">Security Event Log</div>
+                  <div class="bank-table-meta">0 events</div>
+                </div>
+                <div style="padding: 14px" id="secLogBody">
+                  <div style="text-align: center; padding: 20px">
+                    No security events recorded
+                  </div>
+                </div>
+              </div>
+              <div class="bank-table-wrap">
+                <div class="bank-table-header">
+                  <div class="bank-table-title">
+                    🚨 SECURITY TEAM RECOMMENDATIONS
+                  </div>
+                </div>
+                <div style="padding: 14px" id="recActionBody">
+                  <div style="text-align: center; padding: 20px">
+                    No active recommendations
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HACKER SIDE -->
+      <div class="hack-side">
+        <div class="hack-topbar">
+          <div class="hack-logo">◈ THREAT CONSOLE</div>
+          <div class="hack-status" id="hackTopStatus">DORMANT</div>
+        </div>
+
+        <div class="hack-login-wrap" id="hackLoginWrap">
+          <div class="hack-login-box">
+            <div class="hack-actors">
+              <div class="attack-section-title">SELECT THREAT ACTOR</div>
+              <button
+                class="hack-actor-btn"
+                onclick="selectActor('GHOST_7')"
+                id="actor-GHOST_7"
+              >
+                <span class="hack-actor-code">GHOST_7</span
+                ><span class="hack-actor-type"
+                  >Credential Theft · Payment Data Skimming</span
+                >
+              </button>
+
+              <button
+                class="hack-actor-btn"
+                onclick="selectActor('ZERO_D')"
+                id="actor-ZERO_D"
+              >
+                <span class="hack-actor-code">ZERO_D</span
+                ><span class="hack-actor-type"
+                  >SQL Injection · Bill Manipulation</span
+                >
+              </button>
+
+              <button
+                class="hack-actor-btn"
+                onclick="selectActor('PHANTOM_T')"
+                id="actor-PHANTOM_T"
+              >
+                <span class="hack-actor-code">PHANTOM_T</span>
+                <span class="hack-actor-type">
+                  AI-Driven Mass Exfiltration
+                </span>
+              </button>
+            </div>
+
+            <button class="hack-enter-btn" onclick="hackLogin()">
+              ▶ ENTER SYSTEM
+            </button>
+
+            <div class="hack-err" id="hackErr"></div>
+          </div>
+        </div>
+
+        <div class="hack-dash" id="hackDash">
+          <div class="hack-who-bar">
+            <div class="hack-who" id="hackWhoLabel">—</div>
+
+            <div>
+              <div class="hack-sg-indicator off" id="hackSgIndicator">
+                SG: INACTIVE
+              </div>
+              <button class="hack-who-exit" onclick="hackLogout()">EXIT</button>
+            </div>
+          </div>
+
+          <div class="hack-tabs">
+            <button class="hack-tab active" onclick="hackTab('attack', this)">
+              ATTACK
+            </button>
+            <button class="hack-tab" onclick="hackTab('cards', this)">
+              BANK DETAILS
+            </button>
+            <button class="hack-tab" onclick="hackTab('loans', this)">
+              BILL MANIP.
+            </button>
+            <button class="hack-tab" onclick="hackTab('pii', this)">
+              CLIENT PII
+            </button>
+          </div>
+
+          <div class="hack-content">
+            <div class="hack-view active" id="hv-attack">
+              <div class="attack-section-title">ATTACK VECTORS</div>
+              <button class="attack-btn" onclick="runAttack(0)">
+                <span class="attack-btn-name">LAYER 1: Perimeter Firewall</span>
+              </button>
+              <button class="attack-btn" onclick="runAttack(1)">
+                <span class="attack-btn-name">LAYER 2: WAF / SQLi Filter</span>
+              </button>
+              <button class="attack-btn" onclick="runAttack(2)">
+                <span class="attack-btn-name">LAYER 3: API Gateway Auth</span>
+              </button>
+              <button class="attack-btn" onclick="runAttack(3)">
+                <span class="attack-btn-name">LAYER 4: DB Access Control</span>
+              </button>
+              <button class="attack-btn" onclick="runAttack(4)">
+                <span class="attack-btn-name">LAYER 5: Admin MFA Bypass</span>
+              </button>
+              <div class="ai-attack-area">
+                <div class="attack-section-title">🤖 AI ATTACK</div>
+
+                <input
+                  type="text"
+                  id="aiCommand"
+                  class="ai-input"
+                  placeholder="Describe your attack..."
+                /><button
+                  class="attack-btn"
+                  onclick="runAIAttack()"
+                  style="border-color: #00ffcc"
+                >
+                  🚀 EXECUTE AI
+                </button>
+              </div>
+              <div
+                id="attackTerminal"
+                class="terminal-wrap"
+                style="display: none"
+              >
+                <div class="terminal-bar">
+                  <span>ATTACK LOG</span>
+                  <button
+                    onclick="
+                      document.getElementById('attackTermBody').innerHTML = '';
+                      this.parentElement.parentElement.style.display = 'none';
+                    "
+                  >
+                    CLEAR
+                  </button>
+                </div>
+                <div class="terminal-body" id="attackTermBody"></div>
+              </div>
+            </div>
+
+            <div class="hack-view" id="hv-cards">
+              <div class="attack-section-title">
+                BANKING DETAILS EXFILTRATION
+              </div>
+              <button class="attack-btn" onclick="runCardAttack()">
+                💳 EXTRACT BANK DETAILS
+              </button>
+
+              <div
+                id="cardTerminal"
+                class="terminal-wrap"
+                style="display: none"
+              >
+                <div class="terminal-bar">
+                  <span>BANK EXFIL</span
+                  ><button
+                    onclick="
+                      document.getElementById('cardTermBody').innerHTML = '';
+                      this.parentElement.parentElement.style.display = 'none';
+                    "
+                  >
+                    CLEAR
+                  </button>
+                </div>
+                <div class="terminal-body" id="cardTermBody"></div>
+              </div>
+              <div id="cardResults" style="display: none; margin-top: 10px">
+                <div class="hack-result-title">EXTRACTED BANK DETAILS</div>
+                <div style="overflow-x: auto">
+                  <table class="hack-result-table" id="cardTable">
+                    <thead>
+                      <tr>
+                        <th>CUSTOMER NAME</th>
+                        <th>CARD NUMBER</th>
+                        <th>EXPIRY</th>
+                        <th>CVV</th>
+                        <th>BANK NAME</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cardTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="hack-view" id="hv-loans">
+              <div class="attack-section-title">BILLING MANIPULATION</div>
+              <button class="attack-btn" onclick="runLoanAccess()">
+                🏦 ACCESS BILLING DATABASE
+              </button>
+
+              <div
+                id="loanTerminal"
+                class="terminal-wrap"
+                style="display: none"
+              >
+                <div class="terminal-bar">
+                  <span>BILLING ACCESS</span
+                  ><button
+                    onclick="
+                      document.getElementById('loanTermBody').innerHTML = '';
+                      this.parentElement.parentElement.style.display = 'none';
+                    "
+                  >
+                    CLEAR
+                  </button>
+                </div>
+                <div class="terminal-body" id="loanTermBody"></div>
+              </div>
+              <div id="loanResults" style="display: none; margin-top: 10px">
+                <div class="hack-result-title">WATER & ELECTRICITY BILLS</div>
+                <div style="overflow-x: auto">
+                  <table class="hack-result-table" id="billsTable">
+                    <thead>
+                      <tr>
+                        <th>CUSTOMER NAME</th>
+                        <th>BILL TYPE</th>
+                        <th>WATER BALANCE</th>
+                        <th>ELECTRICITY BALANCE</th>
+                        <th>KWH</th>
+                        <th>ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody id="loanList"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="hack-view" id="hv-pii">
+              <div class="attack-section-title">CLIENT PII DUMP</div>
+
+              <button class="attack-btn" onclick="runPiiAttack()">
+                📁 EXTRACT PII DATA
+              </button>
+
+              <div id="piiTerminal" class="terminal-wrap" style="display: none">
+                <div class="terminal-bar">
+                  <span>PII EXFIL</span>
+                  <button
+                    onclick="
+                      document.getElementById('piiTermBody').innerHTML = '';
+                      this.parentElement.parentElement.style.display = 'none';
+                    "
+                  >
+                    CLEAR
+                  </button>
+                </div>
+                <div class="terminal-body" id="piiTermBody"></div>
+              </div>
+              <div id="piiResults" style="display: none; margin-top: 10px">
+                <div class="hack-result-title">CLIENT PII</div>
+
+                <div>
+                  <table class="hack-result-table" id="piiTable">
+                    <thead>
+                      <tr>
+                        <th>NAME</th>
+                        <th>ID</th>
+                        <th>EMAIL</th>
+                        <th>PHONE</th>
+                      </tr>
+                    </thead>
+                    <tbody id="piiTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="tokenSaleDisplay"
+      class="token-sale-display"
+      style="display: none"
+    ></div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
