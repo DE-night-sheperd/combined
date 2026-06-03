@@ -1,0 +1,66 @@
+; Deadbolt Endpoint Shield - Kernel-Mode Monitor Driver INF
+; Copyright (c) 2025 Deadbolt Security. All rights reserved.
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=%ManufacturerName%
+CatalogFile=DeadboltMonitor.cat
+DriverVer=1.0.0.0
+
+[DestinationDirs]
+DefaultDestDir = 12
+DeadboltMonitor_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+DeadboltMonitor.sys = 1,,
+WdfCoInstaller01011.dll = 1,,
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64
+
+[Standard.NTamd64]
+%DeadboltMonitor.DeviceDesc% = DeadboltMonitor_Inst,Root\DeadboltMonitor
+
+[DeadboltMonitor_Inst.NT]
+CopyFiles = DeadboltMonitor_CopyFiles
+
+[DeadboltMonitor_CopyFiles]
+DeadboltMonitor.sys,,,0x00004000
+
+[DeadboltMonitor_Inst.NT.Services]
+AddService = DeadboltMonitor,%SPSVCINST_ASSOCSERVICE%,DeadboltMonitor_Service_Inst
+
+[DeadboltMonitor_Service_Inst]
+DisplayName    = %DeadboltMonitor.SvcDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\DeadboltMonitor.sys
+
+[DeadboltMonitor_Inst.NT.CoInstallers]
+AddReg = DeadboltMonitor_CoInstaller_AddReg
+CopyFiles = DeadboltMonitor_Device_CoInstaller_CopyFiles
+
+[DeadboltMonitor_Device_CoInstaller_CopyFiles]
+WdfCoInstaller01011.dll
+
+[DeadboltMonitor_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01011.dll,WdfCoInstaller"
+
+[DeadboltMonitor_Inst.NT.Wdf]
+KmdfService = DeadboltMonitor, DeadboltMonitor_WDF_Inst
+
+[DeadboltMonitor_WDF_Inst]
+KmdfLibraryVersion = 1.11
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "Deadbolt Security"
+DiskName = "Deadbolt Endpoint Shield Driver Disk"
+DeadboltMonitor.DeviceDesc = "Deadbolt Endpoint Shield - Kernel Monitor"
+DeadboltMonitor.SvcDesc = "Deadbolt Endpoint Shield Kernel Monitor Service"

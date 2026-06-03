@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadbolt - System Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 100%);
+            color: #fff;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 2.8em;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            margin-bottom: 40px;
+        }
+        h2 {
+            color: #00ffff;
+            border-bottom: 3px solid #00ff88;
+            padding-bottom: 10px;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .section {
+            background: rgba(15, 52, 96, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .mermaid {
+            background: #000;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 2px solid #0f3460;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature-card {
+            background: rgba(0, 85, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #00ff00;
+        }
+        .feature-card h3 {
+            color: #00ffff;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 DEADBOLT ENDPOINT SHIELD<br>COMPLETE SYSTEM ARCHITECTURE</h1>
+        
+        <div class="section">
+            <h2>0. System Summary</h2>
+            <p><strong>Deadbolt</strong> is a comprehensive file access control security system featuring:</p>
+            <ul>
+                <li>Rule-based file/folder protection</li>
+                <li>Token-based authentication</li>
+                <li>Real-time file system monitoring</li>
+                <li>🧠 AI Neural Web for behavioral analysis</li>
+                <li>Kernel-mode & user-mode enforcement</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>1. System Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📁 Rule Management</h3>
+                    <p>Add/remove rules for files/folders. Types: Block All, Read, Write, Delete, Rename</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 Token Auth</h3>
+                    <p>Level 1 Token Key with complexity requirements. Encrypted storage via DPAPI.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👁️ Real-time Monitor</h3>
+                    <p>Watchdog-based monitoring for file modifications, deletions, creations, moves.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 AI Neural Web</h3>
+                    <p>Behavioral analysis, anomaly detection, suspicious pattern recognition, risk scoring.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚙️ Kernel Driver</h3>
+                    <p>Windows file system minifilter for kernel-level IRP filtering.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💾 Persistent Storage</h3>
+                    <p>Rules, token, and AI model stored in ~/.deadbolt/ directory.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. OVERALL SYSTEM ARCHITECTURE</h2>
+            <div class="mermaid">
+graph TB
+    User["👤 USER"] --> Launcher
+    
+    subgraph UI_LAYER["📱 USER INTERFACE LAYER"]
+        Launcher["LAUNCHER.py<br>Main Launcher"]
+        FAM["FILE_ACCESS_MANAGER.py<br>Rule & Token Manager"]
+    end
+    
+    subgraph USER_MODE["🖥️ USER-MODE CONTROLLERS"]
+        FAC["file_access_control.py<br>Rule Controller"]
+        FOM["file_operation_monitor.py<br>Operation Monitor"]
+        AI["ai_security_engine.py<br>🧠 AI NEURAL WEB<br>Behavioral Analysis<br>Anomaly Detection<br>Risk Scoring"]
+        Perms["windows_permissions.py<br>Permissions"]
+        DriverConn["driver_connector.py<br>Driver Comm"]
+    end
+    
+    subgraph KERNEL_MODE["⚙️ KERNEL-MODE DRIVER"]
+        KMD["DeadboltMinifilter.sys<br>File System Filter"]
+    end
+    
+    subgraph STORAGE["💾 STORAGE & FILE SYSTEM"]
+        Config["~/.deadbolt/<br>Config & Model"]
+        FS["Windows File System<br>(NTFS/FAT32)"]
+    end
+    
+    Launcher --> FAM
+    FAM --> FAC
+    FAM --> FOM
+    FOM -->|Log Events| AI
+    AI -->|Risk Score| FOM
+    FAM --> Perms
+    FAM --> DriverConn
+    
+    FAC --> Config
+    FOM --> Config
+    AI --> Config
+    DriverConn --> KMD
+    
+    KMD --> FS
+    Perms --> FS
+    FOM --> FS
+    AI --> FS
+    
+    style User fill:#1a1a2e,stroke:#00ff88,stroke-width:4px
+    style UI_LAYER fill:#0f3460,stroke:#00ffff,stroke-width:3px
+    style USER_MODE fill:#005500,stroke:#00ff00,stroke-width:3px
+    style KERNEL_MODE fill:#aa0000,stroke:#ff0000,stroke-width:3px
+    style STORAGE fill:#5500aa,stroke:#aa00ff,stroke-width:3px
+    style AI fill:#5500aa,stroke:#aa00ff,stroke-width:4px
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. SYSTEM FLOWCHART - FILE ACCESS ATTEMPT</h2>
+            <div class="mermaid">
+flowchart TD
+    Start([START: File Operation]) --> Step1[User tries to delete/modify/copy file]
+    
+    Step1 --> Step2{Kernel Driver<br>Installed?}
+    
+    Step2 -->|YES| Step3[Kernel Minifilter<br>gets IRP]
+    Step2 -->|NO| Step6[User-Mode Monitor<br>detects via watchdog]
+    
+    Step3 --> Step4{Rules Check<br>in Kernel}
+    Step4 -->|BLOCK| Step5[Return Access Denied]
+    Step4 -->|ALLOW| Step6
+    
+    Step5 --> EndBlock([END: BLOCKED])
+    
+    Step6 --> AI_Step[🧠 AI NEURAL WEB<br>Analyzes Operation]
+    
+    AI_Step --> AI_Risk{AI Risk Score?}
+    
+    AI_Risk -->|HIGH RISK| Step8[Show Token Popup]
+    AI_Risk -->|MEDIUM| Step7{Active Rule<br>Match?}
+    AI_Risk -->|LOW| Step7
+    
+    Step7 -->|NO| EndAllow([END: ALLOWED])
+    Step7 -->|YES| Step8
+    
+    Step8 --> Step9[Enter Level 1 Token]
+    
+    Step9 --> Step10{Valid Token?}
+    
+    Step10 -->|NO| Step11[Invalid Token Error]
+    Step11 --> Step8
+    
+    Step10 -->|YES| Step12{Allow or Deny?}
+    
+    Step12 -->|DENY| EndBlock
+    Step12 -->|ALLOW| EndAllow
+    
+    style Start fill:#00ff88,stroke:#00aa55,stroke-width:4px
+    style EndAllow fill:#00aa00,stroke:#00ff00,stroke-width:4px
+    style EndBlock fill:#aa0000,stroke:#ff0000,stroke-width:4px
+    style AI_Step fill:#5500aa,stroke:#aa00ff,stroke-width:4px
+    style AI_Risk fill:#5500aa,stroke:#aa00ff,stroke-width:4px
+    style Step8 fill:#5500aa,stroke:#aa00ff,stroke-width:3px
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. SEQUENCE DIAGRAM - FILE OPERATION</h2>
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant U as 👤 User
+    participant FS as 📂 File System
+    participant K as ⚙️ Kernel Driver
+    participant M as 🖥️ Monitor
+    participant AI as 🧠 AI Neural Web
+    participant A as 🔐 Auth Dialog
+    participant C as 💾 Config
+    
+    U->>FS: File Operation
+    activate FS
+    
+    FS->>K: IRP Packet
+    activate K
+    K->>K: Check Rules
+    alt Kernel Blocks
+        K->>FS: Access Denied
+        deactivate K
+        FS->>U: ❌ Denied
+        deactivate FS
+    else Kernel Allows
+        deactivate K
+        
+        FS->>M: File System Event
+        activate M
+        
+        M->>AI: Log Operation
+        activate AI
+        AI->>AI: Analyze & Score
+        AI-->>M: Risk Score
+        deactivate AI
+        
+        alt HIGH RISK or Rule Match
+            M->>A: Show Popup
+            activate A
+            A->>U: Enter Token
+            U->>A: Token
+            A->>C: Verify Token
+            activate C
+            C-->>A: Valid!
+            deactivate C
+            A->>U: Allow/Deny
+            alt Allow
+                A->>M: Allow
+                deactivate A
+                M->>FS: Allow
+                deactivate M
+                FS->>U: ✅ Complete
+                deactivate FS
+            else Deny
+                A->>M: Deny
+                deactivate A
+                deactivate M
+                FS->>U: ❌ Cancelled
+                deactivate FS
+            end
+        else LOW RISK
+            M->>FS: Allow
+            deactivate M
+            FS->>U: ✅ Complete
+            deactivate FS
+        end
+    end
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. COMPONENT NODES</h2>
+            <div class="mermaid">
+graph LR
+    subgraph UI["📱 UI"]
+        A[LAUNCHER.py]
+        B[FILE_ACCESS_MANAGER.py]
+    end
+    
+    subgraph USER["🖥️ USER-MODE"]
+        C[file_access_control.py]
+        D[file_operation_monitor.py]
+        E[ai_security_engine.py<br>🧠 AI]
+        F[windows_permissions.py]
+        G[driver_connector.py]
+    end
+    
+    subgraph KERNEL["⚙️ KERNEL"]
+        H[DeadboltMinifilter.sys]
+    end
+    
+    subgraph STORAGE["💾 STORAGE"]
+        I[Config: ~/.deadbolt/]
+        J[Windows File System]
+    end
+    
+    A --> B
+    B --> C
+    B --> D
+    D --> E
+    E --> D
+    B --> F
+    B --> G
+    
+    C --> I
+    D --> I
+    E --> I
+    G --> H
+    
+    H --> J
+    F --> J
+    D --> J
+    E --> J
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                showSequenceNumbers: true,
+                wrap: true
+            }
+        });
+    </script>
+</body>
+</html>

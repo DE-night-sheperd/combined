@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadbolt Complete System Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #050510 0%, #101025 100%);
+            color: #fff;
+            margin: 0;
+            padding: 40px;
+            line-height: 1.8;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 3em;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+        }
+        h2 {
+            color: #00ffff;
+            border-bottom: 4px solid #00ff88;
+            padding-bottom: 15px;
+            margin-top: 50px;
+            font-size: 2em;
+        }
+        h3 {
+            color: #ffaa00;
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+        .section {
+            background: rgba(10, 30, 60, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+            border: 2px solid rgba(0, 255, 136, 0.4);
+            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.7);
+        }
+        .mermaid {
+            background: #000;
+            padding: 50px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #0a1e3c;
+            overflow-x: auto;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .card {
+            background: rgba(0, 50, 0, 0.5);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #00aa00;
+        }
+        .card-danger {
+            background: rgba(50, 0, 0, 0.5);
+            border-color: #aa0000;
+        }
+        .card-warning {
+            background: rgba(50, 30, 0, 0.5);
+            border-color: #aa8800;
+        }
+        .card-info {
+            background: rgba(0, 30, 50, 0.5);
+            border-color: #0088aa;
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        strong {
+            color: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 DEADBOLT ENDPOINT SHIELD<br>COMPLETE SYSTEM DOCUMENTATION</h1>
+
+        <div class="section">
+            <h2>1. SYSTEM OVERVIEW</h2>
+            <p><strong>Deadbolt Endpoint Shield</strong> is a comprehensive file access control and data loss prevention system designed to protect sensitive files and folders from unauthorized access, modification, deletion, and exfiltration.</p>
+            
+            <h3>Core Capabilities:</h3>
+            <ul>
+                <li>Rule-based file/folder access control</li>
+                <li>Token-based authentication for restricted operations</li>
+                <li>Real-time file system monitoring</li>
+                <li>🧠 AI Neural Web for behavioral analysis and anomaly detection</li>
+                <li>Kernel-mode and user-mode enforcement layers</li>
+                <li>Windows file attribute protection</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. FULL SYSTEM ARCHITECTURE</h2>
+            <div class="mermaid">
+graph TB
+    User["👤 END USER"] --> Launcher
+    
+    subgraph UI["📱 USER INTERFACE LAYER"]
+        direction TB
+        Launcher["LAUNCHER.py<br>Main Application Launcher"]
+        FAM["FILE_ACCESS_MANAGER.py<br>Rule & Token Manager UI"]
+    end
+    
+    subgraph USERMODE["🖥️ USER-MODE CONTROLLERS"]
+        direction TB
+        FAC["file_access_control.py<br>Rule Controller"]
+        FOM["file_operation_monitor.py<br>Operation Monitor"]
+        AI["ai_security_engine.py<br>🧠 AI NEURAL WEB<br>Behavioral Analysis<br>Anomaly Detection<br>Risk Scoring"]
+        Perms["windows_permissions.py<br>File Permission Controller"]
+        DC["driver_connector.py<br>Driver Communication"]
+    end
+    
+    subgraph KERNEL["⚙️ KERNEL-MODE DRIVER"]
+        KMD["DeadboltMinifilter.sys<br>File System Minifilter"]
+    end
+    
+    subgraph STORAGE["💾 STORAGE LAYER"]
+        Config["~/.deadbolt/<br>Configuration Storage"]
+        FS["Windows File System<br>NTFS / FAT32 / ReFS"]
+    end
+    
+    Launcher --> FAM
+    
+    FAM --> FAC
+    FAM --> FOM
+    FAM --> Perms
+    FAM --> DC
+    
+    FOM -->|Log Events| AI
+    AI -->|Risk Score| FOM
+    
+    FAC --> Config
+    FOM --> Config
+    AI --> Config
+    DC --> KMD
+    
+    KMD --> FS
+    Perms --> FS
+    FOM --> FS
+    AI --> FS
+    
+    style User fill:#101025,stroke:#00ff88,stroke-width:5px
+    style UI fill:#0a1e3c,stroke:#00ffff,stroke-width:3px
+    style USERMODE fill:#003300,stroke:#00ff00,stroke-width:3px
+    style KERNEL fill:#550000,stroke:#ff0000,stroke-width:3px
+    style STORAGE fill:#220055,stroke:#aa00ff,stroke-width:3px
+    style AI fill:#220055,stroke:#aa00ff,stroke-width:5px
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. COMPLETE DATA FLOW DIAGRAM</h2>
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant U as 👤 END USER
+    participant FS as 📂 WINDOWS FILE SYSTEM
+    participant K as ⚙️ KERNEL MINIFILTER
+    participant M as 🖥️ USER-MODE MONITOR
+    participant AI as 🧠 AI NEURAL WEB
+    participant A as 🔐 AUTHENTICATION DIALOG
+    participant C as 💾 CONFIG STORAGE
+
+    Note over U, C: FILE OPERATION WORKFLOW
+    
+    U->>FS: 1. Attempt File Operation<br>(delete/modify/copy)
+    activate FS
+    
+    FS->>K: 2. IRP Packet Sent
+    activate K
+    K->>K: 3. Check Kernel Rules
+    alt Kernel Blocks
+        K->>FS: 4. STATUS_ACCESS_DENIED
+        deactivate K
+        FS->>U: 5. ❌ Access Denied
+        deactivate FS
+    else Kernel Allows
+        deactivate K
+        
+        FS->>M: 6. File System Event
+        activate M
+        
+        M->>AI: 7. Log Operation for Analysis
+        activate AI
+        AI->>AI: 8. Analyze Behavior<br>Detect Anomalies<br>Calculate Risk Score
+        AI-->>M: 9. Return Risk Score
+        deactivate AI
+        
+        alt HIGH RISK or Rule Match
+            M->>A: 10. Show Popup Dialog
+            activate A
+            A->>U: 11. Request Token Key
+            U->>A: 12. Enter Token
+            A->>C: 13. Verify Token
+            activate C
+            C-->>A: 14. Token Valid!
+            deactivate C
+            A->>U: 15. Allow or Deny?
+            alt User Allows
+                A->>M: 16. Allow Operation
+                deactivate A
+                M->>FS: 17. Allow Operation
+                deactivate M
+                FS->>U: 18. ✅ Operation Complete
+                deactivate FS
+            else User Denies
+                A->>M: 16. Deny Operation
+                deactivate A
+                deactivate M
+                FS->>U: 18. ❌ Operation Cancelled
+                deactivate FS
+            end
+        else LOW RISK & No Rule
+            M->>FS: 10. Allow Operation
+            deactivate M
+            FS->>U: 11. ✅ Operation Complete
+            deactivate FS
+        end
+    end
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. SECURITY MEASURES WITHIN DEADBOLT</h2>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🔐 Authentication & Access Control</h3>
+                    <ul>
+                        <li><strong>Level 1 Token Key</strong> - Password-based authentication for restricted operations</li>
+                        <li><strong>Password Complexity</strong> - Enforces 8+ chars, uppercase, lowercase, digit</li>
+                        <li><strong>DPAPI Encryption</strong> - Token encrypted using Windows Data Protection API</li>
+                        <li><strong>Rule-Based Access</strong> - Granular rules for files/folders</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>👁️ Monitoring & Detection</h3>
+                    <ul>
+                        <li><strong>Real-time Monitoring</strong> - Watchdog-based file system event monitoring</li>
+                        <li><strong>🧠 AI Behavioral Analysis</strong> - Learns normal behavior, detects anomalies</li>
+                        <li><strong>Suspicious Pattern Detection</strong> - Flags USB access, mass delete, encryption</li>
+                        <li><strong>Risk Scoring</strong> - 0.0-1.0 risk score for each operation</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💾 Data Protection</h3>
+                    <ul>
+                        <li><strong>File Attribute Protection</strong> - Sets read-only and hidden attributes</li>
+                        <li><strong>Persistent Rule Storage</strong> - Rules saved to ~/.deadbolt/</li>
+                        <li><strong>HMAC Integrity</strong> - Infrastructure for HMAC signing</li>
+                        <li><strong>File Hashing</strong> - SHA-256 hashing for integrity verification</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚙️ System-Level Protection</h3>
+                    <ul>
+                        <li><strong>Kernel-Mode Driver</strong> - Windows file system minifilter</li>
+                        <li><strong>IRP Filtering</strong> - Intercepts I/O Request Packets</li>
+                        <li><strong>Dual-Layer Enforcement</strong> - Kernel + user-mode protection</li>
+                        <li><strong>Secure Config Directory</strong> - Best-effort NTFS permission setting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. HOW END USER IS PROTECTED</h2>
+            
+            <div class="card">
+                <h3>🛡️ Protection Mechanisms for the End User</h3>
+                <ol>
+                    <li><strong>Unauthorized Access Prevention</strong>
+                        <ul>
+                            <li>Blocks access to protected files/folders</li>
+                            <li>Token required for restricted operations</li>
+                            <li>Popup dialog for every sensitive operation</li>
+                        </ul>
+                    </li>
+                    <li><strong>Data Loss Prevention (DLP)</strong>
+                        <ul>
+                            <li>Detects and blocks mass file deletion</li>
+                            <li>Flags USB/external drive access</li>
+                            <li>Monitors for encryption/compression operations</li>
+                        </ul>
+                    </li>
+                    <li><strong>Real-Time Alerts</strong>
+                        <ul>
+                            <li>Popup notification on every restricted operation</li>
+                            <li>Clear operation details displayed</li>
+                            <li>User can Allow or Deny each request</li>
+                        </ul>
+                    </li>
+                    <li><strong>AI-Powered Anomaly Detection</strong>
+                        <ul>
+                            <li>Learns normal user behavior patterns</li>
+                            <li>Flags deviations from baseline</li>
+                            <li>Risk-based authentication requirements</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. HOW OUR SYSTEM PROTECTS ITSELF</h2>
+            
+            <div class="card card-info">
+                <h3>🔒 Deadbolt Self-Protection Mechanisms</h3>
+                <ol>
+                    <li><strong>Secure Token Storage</strong>
+                        <ul>
+                            <li>Token encrypted with Windows DPAPI (if available)</li>
+                            <li>Fallback to secure JSON storage</li>
+                            <li>Current token required to change token</li>
+                        </ul>
+                    </li>
+                    <li><strong>Configuration Protection</strong>
+                        <ul>
+                            <li>Best-effort NTFS permission setting on config directory</li>
+                            <li>Separate HMAC key for integrity</li>
+                            <li>First-launch setup wizard for strong token</li>
+                        </ul>
+                    </li>
+                    <li><strong>Password Complexity Enforcement</strong>
+                        <ul>
+                            <li>Minimum 8 characters</li>
+                            <li>Requires uppercase, lowercase, and digit</li>
+                            <li>Prevents weak passwords</li>
+                        </ul>
+                    </li>
+                    <li><strong>Defensive Programming</strong>
+                        <ul>
+                            <li>Graceful error handling</li>
+                            <li>Fallback mechanisms</li>
+                            <li>Input validation</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>7. IDENTIFIED VULNERABILITIES</h2>
+            
+            <h3>🔴 CRITICAL VULNERABILITIES</h3>
+            <div class="card card-danger">
+                <h4>VULN-001: Kernel Driver - Missing Input Validation</h4>
+                <p><strong>Severity:</strong> CRITICAL</p>
+                <p><strong>Description:</strong> Kernel-mode driver does not validate IOCTL input buffer sizes or contents</p>
+                <p><strong>Impact:</strong> Buffer overflow, privilege escalation, system crash (BSOD)</p>
+                <p><strong>Mitigation:</strong> Validate all input sizes, use safe memory copy functions</p>
+            </div>
+            
+            <div class="card card-danger">
+                <h4>VULN-002: Kernel Driver - NULL Pointer Dereferences</h4>
+                <p><strong>Severity:</strong> CRITICAL</p>
+                <p><strong>Description:</strong> Missing NULL checks for UNICODE_STRING Buffer and other pointers</p>
+                <p><strong>Impact:</strong> Instant system crash (Blue Screen of Death)</p>
+                <p><strong>Mitigation:</strong> Add NULL checks for all pointers before dereferencing</p>
+            </div>
+
+            <h3>🟠 HIGH SEVERITY VULNERABILITIES</h3>
+            <div class="card card-warning">
+                <h4>VULN-003: Kernel Driver - No Control Device Access Control</h4>
+                <p><strong>Severity:</strong> HIGH</p>
+                <p><strong>Description:</strong> Any user can send IOCTLs to \\.\DeadboltMinifilter</p>
+                <p><strong>Impact:</strong> Non-privileged users can add/remove rules</p>
+                <p><strong>Mitigation:</strong> Set proper DACL, restrict to Administrators only</p>
+            </div>
+            
+            <div class="card card-warning">
+                <h4>VULN-004: No Anti-Tampering / Process Protection</h4>
+                <p><strong>Severity:</strong> HIGH</p>
+                <p><strong>Description:</strong> No protection against user-mode process termination</p>
+                <p><strong>Impact:</strong> Attackers can simply kill the monitor process</p>
+                <p><strong>Mitigation:</strong> Run as Windows Service, implement process protection</p>
+            </div>
+
+            <h3>🟡 MEDIUM SEVERITY VULNERABILITIES</h3>
+            <div class="card card-warning" style="border-color: #aa8800;">
+                <h4>VULN-005: Plaintext Storage (Fallback)</h4>
+                <p><strong>Severity:</strong> MEDIUM</p>
+                <p><strong>Description:</strong> If DPAPI unavailable, token stored in plaintext</p>
+                <p><strong>Impact:</strong> Local attackers can read the token</p>
+                <p><strong>Mitigation:</strong> Always require DPAPI, or use alternative encryption</p>
+            </div>
+            
+            <div class="card card-warning" style="border-color: #aa8800;">
+                <h4>VULN-006: No Log Integrity</h4>
+                <p><strong>Severity:</strong> MEDIUM</p>
+                <p><strong>Description:</strong> Logs stored without integrity checks</p>
+                <p><strong>Impact:</strong> Attackers can modify/delete logs</p>
+                <p><strong>Mitigation:</strong> Sign logs with HMAC, store remotely</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>8. SECURITY RECOMMENDATIONS</h2>
+            
+            <h3>🔴 IMMEDIATE FIXES (Do This Now!)</h3>
+            <ol>
+                <li><strong>Change Default Token</strong> - Always change from the initial strong default</li>
+                <li><strong>Restrict Config Directory</strong> - Manually set NTFS permissions to Admin only</li>
+                <li><strong>Kernel Driver NULL Checks</strong> - Add NULL pointer checks to Driver.c</li>
+                <li><strong>Kernel Driver IOCTL Validation</strong> - Validate all input buffer sizes</li>
+            </ol>
+            
+            <h3>🟠 SHORT-TERM IMPROVEMENTS (1-4 Weeks)</h3>
+            <ol>
+                <li><strong>Encrypt Everything</strong> - Use DPAPI for all sensitive data</li>
+                <li><strong>Proper NTFS DACLs</strong> - Implement true NTFS permission setting</li>
+                <li><strong>HMAC Signatures</strong> - Enable HMAC signing for rules and logs</li>
+                <li><strong>Windows Service</strong> - Run monitor as a Windows Service</li>
+                <li><strong>Kernel Driver DACL</strong> - Set proper security descriptor on control device</li>
+            </ol>
+            
+            <h3>🟢 LONG-TERM ENHANCEMENTS (1-6 Months)</h3>
+            <ol>
+                <li><strong>Kernel-Mode First</strong> - Make kernel driver primary enforcement</li>
+                <li><strong>Secure Boot</strong> - Sign driver with EV certificate, enable Secure Boot</li>
+                <li><strong>Process Protection</strong> - Use Windows Protected Process Light (PPL)</li>
+                <li><strong>Multi-Factor Auth</strong> - Add TOTP/Hardware key second factor</li>
+                <li><strong>Blockchain Logs</strong> - Immutable log storage on blockchain</li>
+                <li><strong>EDR Integration</strong> - Integrate with Endpoint Detection & Response</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>9. SYSTEM COMPONENTS SUMMARY</h2>
+            
+            <table style="width:100%; border-collapse: collapse; margin-top:20px;">
+                <tr style="background:#0a1e3c;">
+                    <th style="padding:15px; border:1px solid #00ff88; text-align:left;">Component</th>
+                    <th style="padding:15px; border:1px solid #00ff88; text-align:left;">Purpose</th>
+                    <th style="padding:15px; border:1px solid #00ff88; text-align:left;">Status</th>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>LAUNCHER.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Main application launcher & menu</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>FILE_ACCESS_MANAGER.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Rule & token management UI</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>file_access_control.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Rule controller & persistence</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>file_operation_monitor.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Real-time monitor & auth dialog</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>🧠 ai_security_engine.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Behavioral analysis & anomaly detection</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>windows_permissions.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">File attribute manipulation</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>driver_connector.py</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Kernel driver communication</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#00ff00;">✅ Complete</td>
+                </tr>
+                <tr>
+                    <td style="padding:12px; border:1px solid #00ff88;"><strong>DeadboltMinifilter.sys</strong></td>
+                    <td style="padding:12px; border:1px solid #00ff88;">Kernel-mode file system filter</td>
+                    <td style="padding:12px; border:1px solid #00ff88; color:#ffaa00;">⚠️ Needs security fixes</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 70
+            },
+            sequence: {
+                showSequenceNumbers: true,
+                wrap: true,
+                width: 150,
+                height: 50
+            }
+        });
+    </script>
+</body>
+</html>

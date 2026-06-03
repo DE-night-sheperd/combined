@@ -1,0 +1,66 @@
+; DeadboltEDR.inf
+; INF file for Deadbolt EDR Kernel Driver
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+CatalogFile=DeadboltEDR.cat
+DriverVer=1.0.0.0
+
+[DestinationDirs]
+DefaultDestDir = 12
+DeadboltEDR_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+DeadboltEDR.sys  = 1,,
+WdfCoInstaller01011.dll=1,,
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%DeadboltEDR.DeviceDesc%=DeadboltEDR_Device, Root\DeadboltEDR
+
+[DeadboltEDR_Device.NT]
+CopyFiles=DeadboltEDR_Device_CopyFiles
+
+[DeadboltEDR_Device_CopyFiles]
+DeadboltEDR.sys,,,0x00004000
+
+[DeadboltEDR_Device.NT.Services]
+AddService = DeadboltEDR, %SPSVCINST_ASSOCSERVICE%, DeadboltEDR_Service_Inst
+
+[DeadboltEDR_Service_Inst]
+DisplayName    = %DeadboltEDR.SVCDESC%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\DeadboltEDR.sys
+
+[DeadboltEDR_Device.NT.CoInstallers]
+AddReg=DeadboltEDR_Device_CoInstaller_AddReg
+CopyFiles=DeadboltEDR_Device_CoInstaller_CopyFiles
+
+[DeadboltEDR_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01011.dll,WdfCoInstaller"
+
+[DeadboltEDR_Device_CoInstaller_CopyFiles]
+WdfCoInstaller01011.dll,,,0x00004000
+
+[DeadboltEDR_Device.NT.Wdf]
+KmdfService =  DeadboltEDR, DeadboltEDR_wdfsect
+
+[DeadboltEDR_wdfsect]
+KmdfLibraryVersion = 1.11
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="Deadbolt Technologies"
+DiskName="Deadbolt EDR Installation Disk"
+DeadboltEDR.DeviceDesc="Deadbolt EDR Kernel Driver"
+DeadboltEDR.SVCDESC="Deadbolt EDR Kernel Service"

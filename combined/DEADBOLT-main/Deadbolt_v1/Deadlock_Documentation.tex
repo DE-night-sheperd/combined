@@ -1,0 +1,417 @@
+\documentclass[12pt,letterpaper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{textcomp}
+
+\geometry{margin=1in}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\title{
+    \includegraphics[width=0.3\textwidth]{logo.png} \\
+    \vspace{0.5cm}
+    \Huge \textbf{Deadlock Endpoint Shield} \\
+    \vspace{0.3cm}
+    \Large Professional Security for Desktops, Servers, and Data Centers \\
+    \vspace{0.2cm}
+    \Large Software as a Service (SaaS) \\
+    \vspace{0.3cm}
+    \Large Version 1.0
+}
+\author{INDEX[0]}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\vfill
+\begin{center}
+    \Large \textbf{Trademark and Copyright Notice} \\
+    \vspace{0.5cm}
+    \normalsize
+    Deadlock\textsuperscript{\textregistered} and the Deadlock Pixel Lock logo are trademarks of INDEX[0]. \\
+    \vspace{0.3cm}
+    \copyright\ \the\year\ INDEX[0]. All rights reserved. \\
+    \vspace{0.3cm}
+    \textit{This document and the Deadlock Endpoint Shield software are protected under international copyright law.}
+\end{center}
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\chapter{Introduction}
+\section{Overview}
+Deadlock Endpoint Shield is a professional, multi-layered security system designed for Windows operating systems---including Windows desktops, Windows servers, and data center server environments. It provides real-time threat detection, file access control, USB peripheral key authentication, and comprehensive admin security features for both individual endpoints and critical server infrastructure.
+
+\section{Purpose}
+The primary objectives of Deadlock Endpoint Shield are:
+\begin{itemize}
+    \item Protect Windows desktops, Windows servers, and data center servers from ransomware, malware, and unauthorized file operations
+    \item Provide secure, token-based access control for both endpoints and critical server infrastructure
+    \item Ensure full auditability of all administrative actions and data movements with device fingerprinting
+    \item Deliver a user-friendly installation and configuration experience for both desktop and server environments
+\end{itemize}
+
+\chapter{Problem Statement}
+\section{The Cybersecurity Crisis in South Africa (Jan--May 2026)}
+The rapid rise of cyberattacks in South Africa between January and May 2026 exposed major weaknesses in the cybersecurity infrastructure of state-owned entities, government agencies, financial institutions, and telecommunications networks. During this period, organizations experienced increasing incidents of data breaches, cyber extortion, and unauthorized access to sensitive information, resulting in financial losses, operational disruption, and reduced public trust.
+
+Cybercriminals are increasingly using advanced attack methods such as:
+\begin{itemize}
+    \item Ransomware
+    \item Zip bombs
+    \item Fileless malware
+    \item Credential theft
+\end{itemize}
+
+These threats are capable of bypassing traditional security systems. Many organizations still lack proactive, real-time cybersecurity solutions, leaving them vulnerable to modern AI-driven and highly sophisticated cyber threats.
+
+\section{Recent Case Studies}
+\subsection{Early May 2026: Municipal VPN Network Takeover}
+\textbf{Target:} Internal billing systems of major metros like the City of Ekurhuleni. \\
+\textbf{The Breach:} In an operation dubbed ``OP South Africa'', hackers leveraged compromised VPNs to clear commercial electricity debts and falsify R1.1 billion in contractor invoices. Security experts at the \href{https://www.mikebolhuis.co.za/post/success-project-sss-neutralises-data-breach-recovers-critical-infrastructure-within-13-minutes}{Mike Bolhuis Cybercrime Unit} warned that these targeted intrusions into critical state infrastructure often act as smoke screens for deeper, long-term data exfiltration operations.
+
+\subsection{Mid-May 2026: GitHub Cloud \& Repository Breach}
+\textbf{Target:} Cloud code environments and local enterprise developer access tokens. \\
+\textbf{The Breach:} A hacking unit named TeamPCP cracked developer access portals via a malicious, weaponized VS Code extension. Reports from \href{https://www.darkreading.com/application-security/github-confirms-breach-4k-internal-repos-stolen}{Dark Reading} and forensic analysis published on \href{https://www.techspot.com/news/112498-hackers-breach-github-malicious-vs-code-extension-access.html}{TechSpot} confirmed that the syndicate exfiltrated roughly 3,800 to 4,000 GitHub-internal source repositories, subsequently placing the stolen intellectual property up for public auction on dark web forums for a starting price of \$50,000.
+
+\subsection{22 May 2026: Specialised Security Services (SSS) Breach Attempt}
+\textbf{Target:} Private cyber security infrastructure databases. \\
+\textbf{The Breach:} During the height of the national DDoS wave, hackers launched a dual-attack on the private security infrastructure of Mike Bolhuis' agency. According to the official security advisory released on the \href{https://www.mikebolhuis.co.za/post/success-project-sss-neutralises-data-breach-recovers-critical-infrastructure-within-13-minutes}{Specialised Security Services (SSS) Portal}, a copycat threat group attempted to exfiltrate sensitive case information, but the data breach exploit was successfully mitigated and the infrastructure fully recovered within 13 minutes.
+
+\chapter{Existing Solutions and Their Vulnerabilities}
+\section{Major Players: Past Strengths and Modern Failures}
+\subsection{McAfee}
+\subsubsection{How It Functions}
+McAfee is a legacy antivirus and endpoint security platform that originally used signature-based detection to identify known malware, along with basic heuristic scanning. It monitors file systems, network traffic, and email attachments, quarantining or deleting files that match its signature database.
+
+\subsubsection{Original Strong Points (Pre-2024)}
+\begin{itemize}
+    \item One of the first commercial antivirus platforms, with a large, established signature database
+    \item Wide industry adoption and brand recognition
+    \item Basic heuristic scanning for novel (but not highly evasive) threats
+    \item Integrated firewall and email filtering capabilities
+\end{itemize}
+
+\subsubsection{Why It Fails Today (2026)}
+\begin{itemize}
+    \item \textbf{Limited protection against memory-based/fileless attacks}: McAfee still relies heavily on file-based scanning; modern fileless malware resides entirely in RAM, evading detection completely.
+    \item \textbf{Inability to detect AI-generated attack patterns}: Modern threat actors use AI to create polymorphic malware that changes signatures with every infection; McAfee's static and even basic heuristic databases cannot keep pace.
+    \item \textbf{Resource bloat}: The software is notoriously heavy on system resources, significantly slowing down endpoints while providing diminishing returns on protection.
+\end{itemize}
+
+\subsection{Malwarebytes}
+\subsubsection{How It Functions}
+Malwarebytes started as a specialized anti-malware tool focused on removing adware, spyware, and trojans that traditional antivirus often missed. It uses signature databases plus some behavioral heuristics to detect and remediate infections, primarily scanning files on disk.
+
+\subsubsection{Original Strong Points (Pre-2024)}
+\begin{itemize}
+    \item Excellent at cleaning up existing infections of common, non-evasive malware
+    \item Lightweight compared to full-featured enterprise suites
+    \item User-friendly interface for non-technical users
+    \item Effective against adware and potentially unwanted programs (PUPs)
+\end{itemize}
+
+\subsubsection{Why It Fails Today (2026)}
+\begin{itemize}
+    \item \textbf{Fileless malware bypasses endpoint scanners entirely}: Modern threat actors use PowerShell, WMI, and other living-off-the-land (LotL) techniques that never write malicious files to disk; Malwarebytes' disk-centric approach misses these completely.
+    \item \textbf{Credential theft via memory scraping}: Tools like Mimikatz (and modern AI-driven variants) scrape credentials from LSASS memory; Malwarebytes lacks robust memory protection or behavioral monitoring to block this.
+    \item \textbf{Limited real-time threat prevention}: Focused primarily on remediation, not proactive blocking of zero-day threats.
+\end{itemize}
+
+\subsection{HP Wolf Security}
+\subsubsection{How It Functions}
+HP Wolf Security is a hardware-enhanced endpoint security platform for HP devices, using CPU-based virtualization to isolate critical processes, along with application containment and basic threat intelligence feeds.
+
+\subsubsection{Original Strong Points (Pre-2024)}
+\begin{itemize}
+    \item Hardware-rooted isolation (via HP Sure Run/Sure Click) provided strong sandboxing for untrusted applications
+    \item Good integration with HP's enterprise hardware ecosystem
+    \item Basic phishing and web threat protection
+\end{itemize}
+
+\subsubsection{Why It Fails Today (2026)}
+\begin{itemize}
+    \item \textbf{AI-assisted malware campaigns successfully bypass enterprise defenses}: Modern threat actors use AI to craft malware that specifically targets sandbox evasion; HP Wolf's containment is no longer sufficient.
+    \item \textbf{AI-generated phishing attacks}: The platform's email gateway detection relies on outdated rules and cannot recognize hyper-realistic, AI-crafted phishing lures.
+    \item \textbf{Malware hidden in trusted platforms and downloads}: Supply-chain attacks and trojanized legitimate software bypass HP Wolf's trust-based model.
+    \item \textbf{Cookie and token theft attacks}: Lack of robust session protection; attackers easily steal authenticated browser sessions.
+\end{itemize}
+
+\subsection{Fortinet}
+\subsubsection{How It Functions}
+Fortinet is a broad network security platform offering firewalls (FortiGate), endpoint protection (FortiClient), cloud SSO (FortiCloud), and EMS management. It uses a mix of signature-based detection, IPS, and basic sandboxing.
+
+\subsubsection{Original Strong Points (Pre-2024)}
+\begin{itemize}
+    \item Strong network-level security with FortiGate firewalls
+    \item Centralized management via EMS
+    \item Good integration between network and endpoint security
+\end{itemize}
+
+\subsubsection{Why It Fails Today (2026)}
+\begin{itemize}
+    \item \textbf{Multiple critical vulnerabilities and active exploit campaigns in 2026}: FortiGate, FortiCloud SSO, and FortiClient EMS all suffered severe, actively exploited bugs in 2026, giving attackers direct access to enterprise environments.
+    \item \textbf{Vulnerable Single Sign-On (SSO) systems}: FortiCloud SSO had authentication bypass flaws that let attackers take over admin accounts without credentials.
+    \item \textbf{SQL injection and privilege escalation flaws}: Multiple critical CVEs in Fortinet products allowed attackers to escalate privileges and exfiltrate data.
+    \item \textbf{Weak API security controls}: Poorly secured APIs were a major attack vector for lateral movement.
+\end{itemize}
+
+\subsection{Photon}
+\subsubsection{How It Functions}
+Photon is a smaller, appliance-based security platform focused on small-to-medium businesses, using a lightweight attack-detection dataset and basic .NET-based management.
+
+\subsubsection{Original Strong Points (Pre-2024)}
+\begin{itemize}
+    \item Lower cost than enterprise tools
+    \item Simple appliance-based deployment
+    \item Basic threat detection for common threats
+\end{itemize}
+
+\subsubsection{Why It Fails Today (2026)}
+\begin{itemize}
+    \item \textbf{Smaller attack-detection datasets}: The platform's threat intelligence is far too limited to detect modern, evolving threats.
+    \item \textbf{Bundled exploit chain in .NET runtime and MySQL}: A critical flaw (CVE-2026-32203 and CVE-2026-33116) allowed local low-privilege processes to cross privilege boundaries.
+    \item \textbf{Lateral movement across database containers}: The above exploit let attackers move freely between adjacent MySQL containers on the appliance, completely compromising it.
+\end{itemize}
+
+\section{Common Shortfalls of All Existing Solutions}
+\begin{itemize}
+    \item \textbf{Too complex for non-technical users}: Enterprise tools require specialized IT knowledge to configure and manage effectively.
+    \item \textbf{Resource-heavy, slowing down systems}: Many legacy suites consume excessive CPU/RAM, degrading endpoint performance.
+    \item \textbf{Expensive enterprise tools out of reach}: Prohibitive pricing models put robust security out of reach for individuals, small businesses, and NGOs.
+    \item \textbf{Lacking customizable/nostalgic interfaces}: Most platforms offer rigid, one-size-fits-all UIs with no personalization options.
+    \item \textbf{No full accountability for data movement}: Few solutions provide comprehensive, device-fingerprinted audit logs of every data access or transfer.
+\end{itemize}
+
+\chapter{Introducing Deadlock Software}
+\section{Delivery Model: Software as a Service (SaaS)}
+Deadlock Endpoint Shield is delivered as a \textbf{Software as a Service (SaaS)} solution, providing organizations and individual users with flexible, scalable, and cost-effective endpoint security.
+
+\section{Solution Overview}
+To mitigate these attacks, we propose a software system that acts as a bridge between the user, server, and database---with full support for Windows desktops, Windows servers, and data center server environments. In detail, Deadlock acts like a smart security guard that decides who can enter, what data can move, who can move the data, and what threats must be blocked in the system---\textbf{giving users and firms complete control over data movement and access on both endpoints and critical server infrastructure, ensuring that every data movement or access is fully accounted for}.
+
+\section{Core Security Features of Deadlock}
+\begin{itemize}
+    \item \textbf{AI-powered threat detection (IMPLEMENTED!)}: Machine learning-based (Random Forest) threat detection with rule-based backup
+    \item Customizable user interface
+    \item Dynamic admin access codes
+    \item Physical security key authentication (USB peripheral key)
+    \item \textbf{Remote Access Authentication}: All remote access attempts require explicit user authentication and approval
+    \item \textbf{File Movement Authentication}: All file movements---regardless of size---require explicit user authentication
+    \item Restricted data movement
+    \item Only one user is allowed to be active on the kernel at a time
+\end{itemize}
+
+\section{Deadlock Vulnerabilities (Areas for Improvement)}
+These are the vulnerabilities we are actively working to improve:
+\begin{itemize}
+    \item Credential and Authentication Weaknesses
+          \begin{itemize}
+              \item NTFS permission hardening
+          \end{itemize}
+    \item Ransomware and Malicious File Modification
+          \begin{itemize}
+              \item Instant detection of file modification
+          \end{itemize}
+    \item Weak Authentication and Unauthorized Privilege Use
+          \begin{itemize}
+              \item Token-based authentication
+          \end{itemize}
+    \item Kernel-Mode Minifilter Driver
+          \begin{itemize}
+              \item Driver development in progress
+              \item Full integration with user-mode application planned for v2.0
+          \end{itemize}
+\end{itemize}
+
+\chapter{System Architecture}
+\section{High-Level Architecture}
+Deadlock Endpoint Shield follows a 4-layer architecture:
+\begin{enumerate}[label=\textbf{Layer \arabic*:}]
+    \item \textbf{User Interface Layer}: Pixel lock animation, installation wizards, and main control panels
+    \item \textbf{Core Security Modules Layer}: Threat detection, authentication, file monitoring, and security utilities
+    \item \textbf{Data Storage Layer}: Local configuration and audit log storage
+    \item \textbf{Kernel-Mode Layer (Driver)}: Windows Minifilter for low-level file system monitoring (in development)
+\end{enumerate}
+
+\section{Core Components}
+\subsection{User Interface Components}
+\begin{itemize}
+    \item \textbf{LAUNCHER.py}: Main entry point, orchestrates full startup flow
+    \item \textbf{DEADLOCK\_PROFESSIONAL\_WIZARD.py}: Windows-style professional installer
+    \item \textbf{DEADLOCK\_INSTALL\_WIZARD.py}: USB peripheral key and token generation wizard
+    \item \textbf{retro\_ui.py}: Main retro-style admin control panel
+    \item Additional interfaces: security\_sandbox.py, control\_center.py, file\_access\_control.py
+\end{itemize}
+
+\subsection{Core Security Modules}
+\begin{itemize}
+    \item \textbf{ai\_threat\_detector.py}: AI-powered threat detection using Random Forest classifier, with rule-based backup for ransomware extensions and suspicious keywords
+    \item \textbf{device\_fingerprint.py}: Hardware-based device fingerprinting for audit logging
+    \item \textbf{file\_operation\_monitor.py}: Real-time file system monitoring and blocking
+    \item \textbf{usb\_peripheral\_key.py}: USB token generation and verification
+    \item \textbf{security\_utils.py}: Hashing, encryption (DPAPI), and password complexity validation
+    \item \textbf{driver\_controller.py}: User-mode controller for kernel-mode drivers, supports adding/clearing file system access rules, requires admin authentication
+    \item \textbf{security\_monitor.py}: Comprehensive security monitor that detects remote access, multiple active users, disables Wi-Fi/hotspot/mic/camera on threats, shows authentication prompts, locks system after 3 failed attempts and requires USB token for unlock
+\end{itemize}
+
+\subsection{Kernel-Mode Drivers}
+\begin{itemize}
+    \item \textbf{DeadboltMinifilter}: File system minifilter driver that monitors and enforces file system operations (create, write, delete, rename), supports blocking rules, communicates with user-mode apps via IOCTL
+    \item \textbf{DeadboltMonitor}: Kernel-mode monitoring driver
+    \item \textbf{DeadboltMonitor\_Extended}: Extended kernel-mode monitoring driver
+\end{itemize}
+
+\chapter{Tech Stack}
+\section{Programming Languages}
+\begin{itemize}
+    \item \textbf{Python 3.12+}: Primary application logic and UI
+    \item \textbf{C}: Windows Kernel-Mode Minifilter Driver (in development)
+\end{itemize}
+
+\section{Libraries and Frameworks}
+\subsection{Python Libraries}
+\begin{itemize}
+    \item \textbf{tkinter/ttk}: Graphical user interface
+    \item \textbf{scikit-learn}: Machine learning for AI threat detection (Random Forest classifier)
+    \item \textbf{numpy}: Numerical computations for machine learning
+    \item \textbf{watchdog}: Real-time file system event monitoring
+    \item \textbf{wmi}: Windows hardware information retrieval
+    \item \textbf{pywin32}: Windows API access (DPAPI encryption)
+    \item Standard library modules: json, hashlib, hmac, os, sys, pathlib, threading, time, uuid, platform
+\end{itemize}
+
+\subsection{Windows Technologies}
+\begin{itemize}
+    \item \textbf{Windows Filter Manager (Minifilter)}: Kernel-mode file system monitoring (in development)
+    \item \textbf{DPAPI (Data Protection API)}: Secure credential storage
+    \item \textbf{WMI (Windows Management Instrumentation)}: Hardware information
+\end{itemize}
+
+\chapter{Features}
+\section{Security Features}
+\subsection{Threat Detection}
+\begin{itemize}
+    \item Ransomware extension detection (locky, zepto, wannacry, etc.)
+    \item Mass file operation detection (modifications/creations/renames per second)
+    \item Real-time file system monitoring
+\end{itemize}
+
+\subsection{Authentication and Access Control}
+\begin{itemize}
+    \item USB peripheral key generation and verification
+    \item Level 1 token key with password complexity requirements
+    \item Admin authentication with SHA-256 password hashing
+\end{itemize}
+
+\subsection{Admin Security}
+\begin{itemize}
+    \item Comprehensive audit logging with timestamps
+    \item Device fingerprinting (hostname, OS, MAC, IP, motherboard, BIOS, CPU, disks)
+    \item Password complexity enforcement
+    \item Secure credential storage (never plain text)
+\end{itemize}
+
+\section{Installation and Configuration}
+\begin{itemize}
+    \item Professional 7-step Windows-style installer
+    \item 5-step USB peripheral key and token generation wizard
+    \item Pixel lock branded intro animation (iconic Deadlock Pixel Lock logo)
+    \item No admin rights required for installation (installs to \%LOCALAPPDATA\%)
+\end{itemize}
+
+\chapter{Security Design Principles}
+Deadlock Endpoint Shield is built upon the following core security principles:
+\begin{enumerate}
+    \item \textbf{Defense in Depth}: Multiple overlapping layers of security (UI $\rightarrow$ Core $\rightarrow$ Kernel)
+    \item \textbf{Least Privilege}: Admin actions require explicit authentication; no unnecessary privileges
+    \item \textbf{Secure Storage}: Sensitive data encrypted or hashed; never stored in plain text
+    \item \textbf{Audit Everything}: All administrative actions logged with full device fingerprint; \textit{full accountability for all data movement and access}
+    \item \textbf{Threat-Oriented Design}: Ransomware and mass operation detection built into core logic
+\end{enumerate}
+
+\chapter{Protection Mechanisms}
+\section{How Deadlock Protects End Users}
+Deadlock Endpoint Shield provides comprehensive protection through multiple layers:
+\begin{itemize}
+    \item \textbf{Real-time Threat Detection}: Monitors file system operations for ransomware extensions, mass file modifications, and other suspicious behavior
+    \item \textbf{Physical Key Authentication}: USB peripheral key required for sensitive operations, preventing unauthorized access even if credentials are compromised
+    \item \textbf{Remote Access Authentication}: \textit{All remote access attempts require explicit authentication from the end user}. The requester's identity and device information are displayed to the user, who must explicitly approve or deny the access request before any connection is established.
+    \item \textbf{File Movement Authentication}: \textit{All file movements---regardless of size---require explicit user authentication}. Any attempt to transfer data (locally or remotely) triggers an authentication prompt, ensuring full user control over data movement.
+    \item \textbf{Device Component Security}: The software includes dedicated, modular drivers for each functionality. When a threat is detected:
+          \begin{itemize}
+              \item Wi-Fi, mobile hotspot, microphone, and camera are automatically blocked to protect user biometrics and prevent data exfiltration
+              \item In case of a remote attack, this automatic disconnection terminates the attacker's session immediately, giving Deadlock time to analyze and remediate the threat in the background
+          \end{itemize}
+    \item \textbf{Full Accountability}: Every data access, transfer, remote access attempt, and admin action is logged with a complete device fingerprint, enabling full forensic analysis
+\end{itemize}
+
+\section{How Deadlock Protects Itself}
+Given that Deadlock requires access to sensitive systems and data, it employs robust, multi-layered security implementation and self-protection mechanisms:
+\begin{itemize}
+    \item \textbf{Modular Driver Architecture}: Separate, isolated drivers for each functionality limit the blast radius if any single component is compromised
+    \item \textbf{Secure Configuration Storage}: All sensitive configuration data (admin credentials, tokens, keys) is either hashed (SHA-256) or encrypted using Windows DPAPI; \textit{no sensitive data is ever stored in plain text}
+    \item \textbf{Device Fingerprinting for All Critical Actions}: All admin actions, remote access attempts, and file movements require authentication and are logged with a full hardware fingerprint, preventing tampering or repudiation
+    \item \textbf{No Unnecessary Privileges}: Deadlock runs with minimal privileges, only elevating when explicitly required for specific, user-approved operations
+    \item \textbf{Code Integrity}: All core modules are validated at startup to prevent tampering or unauthorized modification
+\end{itemize}
+
+\section{Non-Interference with Normal System Operations}
+Deadlock is designed to work seamlessly with day-to-day system functioning without disruption:
+\begin{itemize}
+    \item \textbf{Smart Allowlisting}: Critical system processes, Windows Update, and signed operating system components are automatically allowlisted, preventing accidental blocking of legitimate operations like system updates
+    \item \textbf{Lightweight Monitoring}: File system monitoring is optimized to minimize CPU and RAM usage, ensuring no noticeable performance impact on the user's system
+    \item \textbf{Transparent Operation}: Deadlock runs primarily in the background, with only necessary user interactions for authentication or threat alerts
+\end{itemize}
+
+\chapter{Future Enhancements}
+\section{Planned Features for v2.0}
+\begin{itemize}
+    \item \textbf{Full Minifilter Driver Integration}: Seamless integration between user-mode app and kernel-mode driver
+    \item \textbf{Driver Signing and Deployment}: Properly signed driver with automated installation
+    \item \textbf{Cloud Management Console}: Centralized management of multiple endpoints (SaaS platform)
+    \item \textbf{Advanced AI Threat Detection}: Enhanced deep learning-based threat detection (v1.0 has basic Random Forest AI)
+    \item \textbf{Quarantine and Remediation}: Automatic file quarantine and threat remediation
+    \item \textbf{Real-time Alerting}: Email/SMS alerts for critical threats
+    \item \textbf{Comprehensive Unit and Integration Tests}: Full test suite for all modules
+    \item \textbf{Multi-language Support}: Localization for multiple languages
+\end{itemize}
+
+\section{Long-Term Roadmap}
+\begin{itemize}
+    \item \textbf{Cross-Platform Support}: macOS and Linux versions
+    \item \textbf{Mobile Compatibility}: Support for iOS and Android mobile devices
+    \item \textbf{Hardware Manufacturer Partnerships}: Preinstallation of Deadlock Endpoint Shield on hardware chipsets with major manufacturers
+    \item \textbf{Network Threat Protection}: Network-level intrusion detection
+    \item \textbf{EDR (Endpoint Detection and Response)}: Full EDR capabilities
+    \item \textbf{Integration with SIEM Systems}: Splunk, Microsoft Sentinel, etc.
+\end{itemize}
+
+\chapter{Conclusion}
+Deadlock Endpoint Shield v1.0 provides a solid, professional foundation for security, directly addressing the 2026 South African cybersecurity crisis. Delivered as a \textbf{Software as a Service (SaaS)} platform, it gives users and firms complete control over data movement and access on Windows desktops, Windows servers, and data center server environments, ensuring that every data movement or access is fully accounted for. With its multi-layered architecture, comprehensive threat detection, robust admin security features, USB-based physical key authentication, and iconic Deadlock Pixel Lock logo, it offers excellent protection for both individual endpoints and critical server infrastructure against modern threats like ransomware, zip bombs, fileless malware, and credential theft. The kernel-mode minifilter driver is currently in development, with full integration planned for v2.0. The planned future enhancements---including AI-powered threat detection, full kernel-mode driver integration, multi-language support, a cloud-based SaaS management console, mobile compatibility for iOS and Android, and hardware manufacturer partnerships for preinstallation on chipsets---will further solidify its position as a leading security solution for desktops, servers, and mobile devices alike.
+
+\vfill
+\begin{center}
+    \Large \textbf{Trademark and Copyright Notice} \\
+    \vspace{0.3cm}
+    \normalsize
+    Deadlock\textsuperscript{\textregistered} and the Deadlock Pixel Lock logo are trademarks of INDEX[0]. \\
+    \vspace{0.2cm}
+    \copyright\ \the\year\ INDEX[0]. All rights reserved.
+\end{center}
+
+\end{document}

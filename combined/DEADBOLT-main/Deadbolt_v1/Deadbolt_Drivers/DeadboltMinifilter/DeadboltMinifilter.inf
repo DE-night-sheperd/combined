@@ -1,0 +1,75 @@
+; DeadboltMinifilter.inf
+; INF file for Deadbolt File System Minifilter
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=ActivityMonitor
+ClassGuid={b86dff51-a31e-4bac-b3cf-e8cfe75c9fc2}
+Provider=%ManufacturerName%
+CatalogFile=DeadboltMinifilter.cat
+DriverVer=1.0.0.0
+
+[DestinationDirs]
+DefaultDestDir = 12
+DeadboltMinifilter_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+DeadboltMinifilter.sys  = 1,,
+WdfCoInstaller01011.dll=1,,
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%DeadboltMinifilter.DeviceDesc%=DeadboltMinifilter_Device, Root\DeadboltMinifilter
+
+[DeadboltMinifilter_Device.NT]
+CopyFiles=DeadboltMinifilter_Device_CopyFiles
+
+[DeadboltMinifilter_Device_CopyFiles]
+DeadboltMinifilter.sys,,,0x00004000
+
+[DeadboltMinifilter_Device.NT.Services]
+AddService = DeadboltMinifilter, %SPSVCINST_ASSOCSERVICE%, DeadboltMinifilter_Service_Inst
+
+[DeadboltMinifilter_Service_Inst]
+DisplayName    = %DeadboltMinifilter.SVCDESC%
+ServiceType    = 2
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\DeadboltMinifilter.sys
+LoadOrderGroup = "FSFilter Activity Monitor"
+AddReg         = DeadboltMinifilter_AddRegistry
+
+[DeadboltMinifilter_AddRegistry]
+HKR,,"DebugFlags",0x00010001,0x0
+HKLM,"System\CurrentControlSet\Services\DeadboltMinifilter","Instances",0x00000010
+HKLM,"System\CurrentControlSet\Services\DeadboltMinifilter\Instances","DefaultInstance",0x00000000,"DeadboltMinifilter Instance"
+HKLM,"System\CurrentControlSet\Services\DeadboltMinifilter\Instances\DeadboltMinifilter Instance","Altitude",0x00000000,"370030"
+HKLM,"System\CurrentControlSet\Services\DeadboltMinifilter\Instances\DeadboltMinifilter Instance","Flags",0x00010001,0x0
+
+[DeadboltMinifilter_Device.NT.CoInstallers]
+AddReg=DeadboltMinifilter_Device_CoInstaller_AddReg
+CopyFiles=DeadboltMinifilter_Device_CoInstaller_CopyFiles
+
+[DeadboltMinifilter_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01011.dll,WdfCoInstaller"
+
+[DeadboltMinifilter_Device_CoInstaller_CopyFiles]
+WdfCoInstaller01011.dll,,,0x00004000
+
+[DeadboltMinifilter_Device.NT.Wdf]
+KmdfService =  DeadboltMinifilter, DeadboltMinifilter_wdfsect
+
+[DeadboltMinifilter_wdfsect]
+KmdfLibraryVersion = 1.11
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="Deadbolt Technologies"
+DiskName="Deadbolt Minifilter Installation Disk"
+DeadboltMinifilter.DeviceDesc="Deadbolt File System Minifilter"
+DeadboltMinifilter.SVCDESC="Deadbolt File System Minifilter Service"

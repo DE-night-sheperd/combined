@@ -1,0 +1,29 @@
+
+# Deadbolt + Clerk Setup Guide
+
+1. Create a Clerk account at https://dashboard.clerk.com/
+
+2. Create a new Clerk application (select "JavaScript" as the framework
+
+3. Copy your Publishable Key from the Clerk Dashboard
+
+4. Create a .env.local file in this folder with this content:
+   VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
+
+5. Update public/sentinel_grid.html also needs your Publishable Key!
+   Open public/sentinel_grid.html, find the script tag that loads Clerk and add the data-clerk-publishable-key attribute:
+   
+   <script
+     async
+     crossorigin="anonymous"
+     data-clerk-publishable-key="pk_test_your_publishable_key_here"
+     src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+     type="text/javascript"
+   ></script>
+
+6. Start the dev server:
+   npm run dev
+
+7. Open http://localhost:5173/ in your browser, sign up or sign in!
+
+8. Once signed in, click "Open Sentinel Grid Portal" to see your original, completely unchanged UI!
